@@ -1,6 +1,5 @@
 import axios from 'axios';
 import config from '../config/index.js';
-console.log('API Key:', config.nasaApiKey);
 
 const nasaApi = axios.create({
   baseURL: config.nasaBaseUrl,
