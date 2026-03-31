@@ -8,6 +8,10 @@ const nasaApi = axios.create({
   },
 });
 
+const nasaImageLibraryApi = axios.create({
+  baseURL:config.nasaImageLibraryUrl
+})
+
 export const getAPOD = async (date) => {
   const { data } = await nasaApi.get('/planetary/apod', {
     params: { date },
@@ -22,13 +26,12 @@ export const getNeoWs = async (startDate, endDate) => {
   return data;
 };
 
-export const getMarsPhotos = async (rover, sol, camera) => {
-  const params = {sol};
-  if (camera) params.camera = camera;
-  const { data } = await nasaApi.get(`/mars-photos/api/v1/rovers/${rover}/photos`, {
-    params,
-  });
-  return data;
+export const searchNasaImage = async (query='mars',page=1) => {
+  const {data} = await nasaImageLibraryApi.get('/search',{
+    params:{
+      q:query,media_type:'image',page,page_size:24},
+  })
+  return data.collection;
 };
 
 export const getEPIC = async (date) => {
